@@ -29,7 +29,7 @@ PyRegen computes the thermal and hydraulic behaviour of a regeneratively cooled 
 - Coolant thermodynamic and transport property lookup via CoolProp
 - Cooling channel geometry defined via control points with linear or cubic spline interpolation
 - Gas-side and coolant-side heat transfer coefficient computation via a swappable model registry
-- Selectable 1D (through-wall) or 2D (fin-effect, channel cross-section) wall conduction models
+- Selectable 1D (fin-effect) or 2D wall conduction models
 - Coolant-side pressure drop modelling
 - Heat flux and wall temperature distribution along the nozzle
 - File export of per-station results
