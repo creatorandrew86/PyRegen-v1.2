@@ -40,7 +40,7 @@ PyRegen computes the thermal and hydraulic behaviour of a regeneratively cooled 
 
 ## Project Structure
 
-'''
+```
 PyRegen-v1.2/
 ├── assets/
 │   ├── __init__.py
@@ -82,7 +82,7 @@ PyRegen-v1.2/
 ├── .gitignore
 ├── LICENSE
 └── README.md
-'''
+```
 
 ---
 
@@ -102,15 +102,15 @@ PyRegen-v1.2/
 ## Installation
 
 1. Clone the repository:
-   '''bash
+```bash
    git clone https://github.com/creatorandrew86/PyRegen-v1.2.git
    cd PyRegen-v1.2
-   '''
+```
 
 2. Install dependencies:
-   '''bash
+```bash
    pip install rocketcea coolprop dearpygui numpy scipy
-   '''
+```
 
 > **Note:** RocketCEA requires NASA CEA to be installed separately. See the [RocketCEA documentation](https://rocketcea.readthedocs.io/en/latest/installCEA.html) for instructions.
 
@@ -118,9 +118,9 @@ PyRegen-v1.2/
 
 ## Usage
 
-'''bash
+```bash
 python main.py
-'''
+```
 
 Once the GUI opens, follow these steps:
 
@@ -206,7 +206,7 @@ The wall model is selected alongside the gas-side and coolant-side heat transfer
 
 All data is held in a single `state` dictionary, initialised via `make_state()` and populated progressively as each analysis stage runs:
 
-'''
+```
 state
 ├── engine_parameters
 ├── nozzle_parameters
@@ -214,7 +214,7 @@ state
 ├── channel_parameters
 ├── solver_options
 └── results
-'''
+```
 
 ---
 
