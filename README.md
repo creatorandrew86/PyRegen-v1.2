@@ -167,8 +167,8 @@ Once the GUI opens, follow these steps:
 
 PyRegen supports two selectable wall conduction models, both accessed through the model registry:
 
-- **1D model (`wall_1d.py`)** — treats the wall as a simple through-thickness conduction path between the hot gas side and coolant side. Fast to solve, suitable for quick sizing and channel geometries where fin effects are negligible.
-- **2D model (`wall_2d.py`)** — resolves conduction across the channel cross-section, accounting for the fin effect of the land between adjacent channels. Produces a more accurate hot wall temperature distribution and land-tip temperature, at the cost of additional solve time per station.
+- **1D model (`wall_1d.py`)** — treats the wall as a simple through-thickness conduction path between the hot gas side and coolant side, with added fin-effect corerctions. Faster, but less accurate, optimal for preliminary design and iteration.
+- **2D model (`wall_2d.py`)** — resolves conduction across the channel cross-section. Produces a more accurate hot wall temperature distribution and land-tip temperature, at the cost of additional solve time per station.
 
 The wall model is selected alongside the gas-side and coolant-side heat transfer correlations before running the solver, and results from either model populate the same per-station output arrays.
 
