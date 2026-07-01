@@ -16,13 +16,11 @@ def on_generate_nozzle():
         show_errors(input_errors)
         return
 
-
     # Run CEA 
     cea_errors = run_cea(state)
     if cea_errors:
         show_errors(cea_errors)
         return
-    
 
     # Run Geometry
     geometry_errors = generate_nozzle_contour(state)
