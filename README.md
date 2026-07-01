@@ -66,8 +66,8 @@ PyRegen-v1.2/
 │   │   ├── hot_side_models.py       # Gas-side heat transfer correlations
 │   │   ├── pressure_drop_models.py  # Coolant pressure drop correlations
 │   │   ├── registry.py              # Model registration and lookup
-│   │   ├── wall_1d.py               # 1D through-wall conduction model
-│   │   └── wall_2d.py               # 2D fin-effect / channel cross-section conduction model
+│   │   ├── wall_1d.py               # 1D wall model
+│   │   └── wall_2d.py               # 2D wall model
 │   ├── __init__.py
 │   └── solver.py                    # Station-by-station cooling solver
 ├── ui/
