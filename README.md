@@ -29,7 +29,7 @@ PyRegen computes the thermal and hydraulic behaviour of a regeneratively cooled 
 - Coolant thermodynamic and transport property lookup via CoolProp
 - Cooling channel geometry defined via control points with linear or cubic spline interpolation
 - Gas-side and coolant-side heat transfer coefficient computation via a swappable model registry
-- Selectable 1D (through-wall) or 2D (fin-effect, channel cross-section) wall conduction models
+- Selectable 1D (fin-effect) or 2D wall conduction models
 - Coolant-side pressure drop modelling
 - Heat flux and wall temperature distribution along the nozzle
 - File export of per-station results
@@ -66,8 +66,8 @@ PyRegen-v1.2/
 │   │   ├── hot_side_models.py       # Gas-side heat transfer correlations
 │   │   ├── pressure_drop_models.py  # Coolant pressure drop correlations
 │   │   ├── registry.py              # Model registration and lookup
-│   │   ├── wall_1d.py               # 1D through-wall conduction model
-│   │   └── wall_2d.py               # 2D fin-effect / channel cross-section conduction model
+│   │   ├── wall_1d.py               # 1D wall model
+│   │   └── wall_2d.py               # 2D wall model
 │   ├── __init__.py
 │   └── solver.py                    # Station-by-station cooling solver
 ├── ui/
@@ -167,8 +167,8 @@ Once the GUI opens, follow these steps:
 
 PyRegen supports two selectable wall conduction models, both accessed through the model registry:
 
-- **1D model (`wall_1d.py`)** — treats the wall as a simple through-thickness conduction path between the hot gas side and coolant side. Fast to solve, suitable for quick sizing and channel geometries where fin effects are negligible.
-- **2D model (`wall_2d.py`)** — resolves conduction across the channel cross-section, accounting for the fin effect of the land between adjacent channels. Produces a more accurate hot wall temperature distribution and land-tip temperature, at the cost of additional solve time per station.
+- **1D model (`wall_1d.py`)** — treats the wall as a simple through-thickness conduction path between the hot gas side and coolant side, with added fin-effect corerctions. Faster, but less accurate, optimal for preliminary design and iteration.
+- **2D model (`wall_2d.py`)** — resolves conduction across the channel cross-section. Produces a more accurate hot wall temperature distribution and land-tip temperature, at the cost of additional solve time per station.
 
 The wall model is selected alongside the gas-side and coolant-side heat transfer correlations before running the solver, and results from either model populate the same per-station output arrays.
 
