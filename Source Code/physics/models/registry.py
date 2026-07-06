@@ -16,7 +16,7 @@ from .pressure_drop_models import (
 )
 
 from .wall_1d import wall_1d_fin
-from .wall_2d import wall_2d
+from .wall_2d.wall_2d import wall_2d
 
 
 PRESSURE_DROP = {
