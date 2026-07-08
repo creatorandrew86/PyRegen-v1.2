@@ -344,7 +344,7 @@ def build_interface(on_generate_nozzle: callable, on_solve: callable, state):
                                     with dpg.table_cell():
                                         dpg.add_spacer(height=5)
                                         dpg.add_text("Jacket Resolution (Number of Stations): ")
-                                        dpg.add_input_int(tag="input_jacket_resolution", width=-1, min_value=0, default_value=250, min_clamped=True, step=1, step_fast=10)
+                                        dpg.add_input_int(tag="input_jacket_resolution", width=-1, min_value=0, min_clamped=True, step=1, step_fast=10)
 
                             with dpg.child_window(width=-1, height=325, tag="control_points_window", horizontal_scrollbar=True):
                                 pass
