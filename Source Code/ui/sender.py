@@ -1,25 +1,21 @@
-from pathlib import Path
+import dearpygui.dearpygui as dpg
 
-# Interface combos
-OXIDIZER_ITEMS = ["LOX", "GOX", "N2O4", "N2O", "IRFNA", "H2O2", "Peroxide90", "Peroxide98", "MON3", "MON15", "MON25"]
-FUEL_ITEMS = ["RP1", "LH2", "CH4", "MMH", "N2H4", "UDMH", "A50", "Ethanol", "Methanol", "GH2", "GCH4", "JetA", "JP10"]
-COOLANT_ITEMS = ["Hydrogen", "Methane", "Ethane", "Ethanol", "Methanol", "Water", "Ammonia", "Nitrogen", "Helium", "Oxygen", "n-Dodecane", "n-Decane", "n-Octane"]
 
-WALL_MATERIAL_ITEMS = ["Copper", "GRCop 42", "GRCop 84"]
-INTERPOLATION_TYPE_ITEMS = ["Linear", "Piecewise Constant"]
+def get_inputs_on_generate() -> dict:
+    values = {key: dpg.get_value(tag) for key, tag in ON_GENERATE_INPUT_TAGS.items()}
 
-GRAPH_X_ITEMS = ["Axial position (x) (cm)", "Cold wall temperature (K)", "Hot wall temperature (K)", "Heat flux (MW/m²)", "Coolant temperature (K)", "Coolant pressure (bar)", "Coolant velocity (m/s)", "Coolant Re"]
-GRAPH_Y_ITEMS = ["Cold wall temperature (K)", "Hot wall temperature (K)", "Gas HTC (×10⁴ W/m²K)", "Coolant HTC (×10⁴ W/m²K)", "Heat flux (MW/m²)", "Coolant temperature (K)", "Coolant pressure (bar)", "Coolant velocity (m/s)", "Coolant Re", "Channel width (mm)", "Channel height (mm)", "Landwidth (mm)"]
+    values["throat_sizing_method"] = ("mass_flow" if dpg.get_value("check_mass_flow_rate") else "given_radius" if dpg.get_value("check_Rt") else None)
+    values["nozzle_type"] = ("conical" if dpg.get_value("check_conical") else "bell" if dpg.get_value("check_bell") else None)
 
-PRESSURE_DROP_MODEL_ITEMS = ["Colebrook-Petukhov", "Filonenko-Petukhov", "Colebrook"]
-COLD_SIDE_MODEL_ITEMS = ["Sieder-Tate", "Bishop et al.", "Jackson", "Dittus-Boelter", "Gnielinski"]
-HOT_SIDE_MODEL_ITEMS = ["Bartz", "Bartz Corrected"]
-WALL_MODEL_ITEMS = ["1D", "2D"]
+    return values
 
-# Font
-FONT_PATH = Path(__file__).resolve().parent.parent / "assets" / "Inter-VariableFont_opsz,wght.ttf"
+def get_inputs_on_solve() -> dict:
+    values = {key: dpg.get_value(tag) for key, tag in ON_SOLVE_INPUT_TAGS.items()}
 
-# key -> dpg tag
+    return values
+
+
+# Key -> Value dicts
 ON_GENERATE_INPUT_TAGS = {
     "oxidizer"                 : "input_oxidizer",
     "fuel"                     : "input_fuel",

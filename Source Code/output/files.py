@@ -1,66 +1,12 @@
-import tkinter as tk
-from tkinter import filedialog
 from datetime import datetime
-from pathlib import Path
 
-from rocketcea.cea_obj import CEA_Obj as CEA_Obj_default_units
+import ui.messages as messages
 
-
-def _ask_save_path(default_filename: str) -> Path | None:
-    root = tk.Tk()
-    root.withdraw()
-    root.wm_attributes("-topmost", True)
-    root.update()
-
-    path = filedialog.asksaveasfilename(
-        parent=root,
-        defaultextension=".txt",
-        initialfile=default_filename,
-        filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
-        title="Save Output As",
-    )
-
-    root.destroy()
-    return Path(path) if path else None
-
-
-def write_full_cea_output(state: dict) -> list[str]:
-    errors = []
-
+def write_full_pyregen_output(state: dict):
     # Check if PyRegen ran
     if state["results"]["Q_flux"] is None:
-        errors.append("PyRegen must run before attempting to print any output")
-        return errors
-
-    # ── Unpack ───────────────────────────────────────────────────────────
-    Pc              = state["engine_parameters"]["Pc"]
-    Pc_psia         = Pc / 6894.7
-    MR              = state["engine_parameters"]["MR"]
-    eps             = state["nozzle_parameters"]["eps"]
-    c_default_units : CEA_Obj_default_units = state["engine_parameters"]["CEA_Obj_default_units"]
-
-    full_cea_output = c_default_units.get_full_cea_output(Pc=Pc_psia, MR=MR, eps=eps, output='siunits')
-
-    # ── Save ─────────────────────────────────────────────────────────────
-    path = _ask_save_path("CEA Output.txt")
-    if path is None:
+        messages.show_errors(["PyRegen must run before attempting to print any output"])
         return
-
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(full_cea_output)
-
-    print(f"CEA output written to {path}")
-
-    return errors
-
-
-def write_full_pyregen_output(state: dict) -> list[str]:
-    errors = []
-
-    # Check if PyRegen ran
-    if state["results"]["Q_flux"] is None:
-        errors.append("PyRegen must run before attempting to print any output")
-        return errors
 
     # ── Unpack engine ────────────────────────────────────────────────────
     oxidizer        = state["engine_parameters"]["oxidizer"]
@@ -119,7 +65,7 @@ def write_full_pyregen_output(state: dict) -> list[str]:
 
 
     # ── Save ─────────────────────────────────────────────────────────────
-    path = _ask_save_path(f"Full Output.txt")
+    path = messages.ask_save_path(f"Full Output.txt")
     if path is None:
         return
 
@@ -226,7 +172,3 @@ def write_full_pyregen_output(state: dict) -> list[str]:
             f.write(row(c1, c2, c3, c4) + "\n")
 
         f.write("─" * (total_width - 21) + "\n")
-
-    print(f"Full PyRegen output written to {path}")
-
-    return errors

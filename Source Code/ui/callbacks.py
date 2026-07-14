@@ -1,27 +1,9 @@
 import dearpygui.dearpygui as dpg
-from core.constants import ON_GENERATE_INPUT_TAGS, ON_SOLVE_INPUT_TAGS
 
 from ui.themes import set_enabled, set_disabled
 from ui.messages import show_errors
-import ui.layout as layout
 import output.graphs as graphs
 import output.files as files
-
-
-# Getter functions for sending the data into input
-def get_inputs_on_generate() -> dict:
-    values = {key: dpg.get_value(tag) for key, tag in ON_GENERATE_INPUT_TAGS.items()}
-
-    values["throat_sizing_method"] = ("mass_flow" if dpg.get_value("check_mass_flow_rate") else "given_radius" if dpg.get_value("check_Rt") else None)
-    values["nozzle_type"] = ("conical" if dpg.get_value("check_conical") else "bell" if dpg.get_value("check_bell") else None)
-
-    return values
-
-def get_inputs_on_solve() -> dict:
-    values = {key: dpg.get_value(tag) for key, tag in ON_SOLVE_INPUT_TAGS.items()}
-    values["control_points"] = [dict(point) for point in layout.get_control_points()]
-
-    return values
 
 
 
@@ -99,17 +81,5 @@ def on_generate_main_graph(state: dict):
     if main_graph_errors:
         show_errors(main_graph_errors)
 
-def on_generate_nozzle_graph(state: dict):
-    nozzle_graph_errors = graphs.nozzle_graph(state)
-    if nozzle_graph_errors:
-        show_errors(nozzle_graph_errors)
-
-def on_write_full_cea_output(state: dict):
-    write_cea_errors = files.write_full_cea_output(state)
-    if write_cea_errors:
-        show_errors(write_cea_errors)
-
 def on_write_full_pyregen_output(state: dict):
-    write_pyregen_errors = files.write_full_pyregen_output(state)
-    if write_pyregen_errors:
-        show_errors(write_pyregen_errors)
+    files.write_full_pyregen_output(state)

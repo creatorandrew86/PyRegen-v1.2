@@ -1,4 +1,29 @@
 import dearpygui.dearpygui as dpg
+from pathlib import Path
+import sys
+
+
+# Base path getter
+def get_base_path() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))
+    else:
+        # Running from source (python main.py).
+        return Path(__file__).resolve().parent.parent
+
+class Font:
+    def __init__(self):
+        self.default_font = None
+
+    FONT_PATH = get_base_path() / "assets" / "Inter.ttf"
+
+    def build_font(self):
+        with dpg.font_registry():
+            self.default_font = dpg.add_font(str(self.FONT_PATH), 16)
+
+FONT = Font()
+ICON = get_base_path() / "assets" / "icon.ico"
+
 
 def build_themes():
         with dpg.theme(tag="disabled_float_entry_theme"):

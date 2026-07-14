@@ -1,29 +1,49 @@
 import dearpygui.dearpygui as dpg
-import core.constants as ct
+import ctypes
 
-import ui.dynamic as dynamic
 import ui.layout as layout
 import ui.themes as themes
+import ui.resize as resize
 
 
 def run_interface(on_generate_nozzle: callable, on_solve: callable, state: dict):
     dpg.create_context()
 
-    with dpg.font_registry():
-        if ct.FONT_PATH.exists():
-            default_font = dpg.add_font(str(ct.FONT_PATH), 16)
-            dpg.bind_font(default_font)
-
+    # Build the layout
     themes.build_themes()
+    themes.FONT.build_font()
     layout.build_interface(on_generate_nozzle, on_solve, state)
 
-    dpg.create_viewport(title="PyRegen v1.1")
+    dpg.bind_font(themes.FONT.default_font)
+
+    # Viewport
+    dpg.create_viewport(title="PyRegen")
+    dpg.set_viewport_small_icon(str(themes.ICON))
+
+    dpg.set_viewport_min_width(width=1250)
+    dpg.set_viewport_min_height(height=750)
+
     dpg.setup_dearpygui()
     dpg.show_viewport()
-    dynamic.center_viewport_on_screen()
-    dpg.set_viewport_resize_callback(dynamic.resize_main_window, user_data=state)
-    dynamic.resize_main_window(user_data=state)
+    size_viewport()
+    dpg.set_viewport_resize_callback(resize.resize_main_window, user_data=state)
+    resize.resize_main_window(user_data=state)
     dpg.set_primary_window("main_window", False)
 
     dpg.start_dearpygui()
     dpg.destroy_context()
+
+
+def size_viewport():
+    user32 = ctypes.windll.user32
+    screen_width  = user32.GetSystemMetrics(0)
+    screen_height = user32.GetSystemMetrics(1)
+
+    vp_width = 1300
+    vp_height = 780
+
+    dpg.set_viewport_width(width=vp_width)
+    dpg.set_viewport_height(height=vp_height)
+
+    dpg.set_viewport_pos([(screen_width - vp_width) // 2, (screen_height - vp_height) // 2])
+    dpg.set_viewport_pos([200, 80])

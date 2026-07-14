@@ -29,7 +29,11 @@ def on_generate_nozzle():
         return
 
     # Upload the nozzle to the interface
-    update_nozzle_canvas(state)
+    try:
+        update_nozzle_canvas(state)
+    except Exception as e:
+        show_errors([f"Nozzle contour generation failed with {e}"])
+        return
 
 
 def on_solve():
